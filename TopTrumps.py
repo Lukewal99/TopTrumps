@@ -3,11 +3,15 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import export_text
 import random
 
+#Database of cards, listing features of each card
+database = [[1414,329],[650,1738],[220,1.6],[842,1550],[579,2200],[321,8650]]
+
+#Initial training Data
 features=[[579,2200,0],[579,2200,1],[321,8650,0],[321,8650,1]]
 outcomes=[1,0,0,1]
 
 #Functions
-def trainAi(features, outcomes):
+def trainAI(features, outcomes):
     clf = DecisionTreeClassifier()
     clf.fit(features, outcomes)
     return clf
@@ -20,7 +24,7 @@ def easyAITurn():
     return random.randint(0,1)
 
 def hardAITurn(turn,features, outcomes):
-    clf = trainAi(features, outcomes)
+    clf = trainAI(features, outcomes)
     if turn == "playerOne":
         feature1 = database[playerOneHand[0]][0]
         feature2 = database[playerOneHand[0]][1]
@@ -36,8 +40,6 @@ def hardAITurn(turn,features, outcomes):
         else:
             return(1)
 
-
-database = [[1414,329],[650,1738],[220,1.6],[842,1550],[579,2200],[321,8650]]
 
 playerOne = input("Human Player (P), Easy Robot(E) or Hard Robot(H) ")
 playerTwo = input("Human Player (P), Easy Robot(E) or Hard Robot(H) ")
@@ -72,7 +74,7 @@ for i in range(1,gameCount+1):
         print("Game " + str(i), end=" / ")
         turnsCount+=1
 
-        #Choose statistic ie melting point
+        #Choose statistic, ie melting point
         if turn == "playerOne":
             print("Player One Card: " + str(database[playerOneHand[0]]), end=" / ") 
             if playerOne == "P":
@@ -97,8 +99,7 @@ for i in range(1,gameCount+1):
         print("Statistic " + str(statChoice) + " Chosen", end=" / ")
         print("P1 Stat: " + str(database[playerOneHand[0]][statChoice]) + " / P2 Stat: " + str(database[playerTwoHand[0]][statChoice]), end=" / ")
 
-        #If Player 1 Wins the Hand
-                    
+        #If Player 1 Wins the Hand               
         if database[playerOneHand[0]][statChoice] > database[playerTwoHand[0]][statChoice]:
             #Add to training Data
             #Player 1
@@ -126,7 +127,6 @@ for i in range(1,gameCount+1):
 
         #If Player 2 Wins the hand
         elif database[playerOneHand[0]][statChoice] < database[playerTwoHand[0]][statChoice]:
-
             #Add to training Data
             #Player 1
             placeholderCardOne = [0,0]
@@ -174,6 +174,6 @@ for i in range(1,gameCount+1):
     print("In " + str(turnsCount) + " Turns ")
     print()
 
-print("\nPlayer One (%s) won %d time(s) %.0f%%" %(playerOne, playerOneWins, (100*(playerOneWins/gameCount))))
-print("Player Two (%s) won %d time(s) %.0f%%" %(playerTwo, playerTwoWins, (100*(playerTwoWins/gameCount))))
-print("Average turns taken %.1f turn(s), max turns taken %d turns." %(totalTurns/gameCount,greatestTurns))
+print("\nPlayer One (%s) won %d time(s) - %.0f%%" %(playerOne, playerOneWins, (100*(playerOneWins/gameCount))))
+print("Player Two (%s) won %d time(s) - %.0f%%" %(playerTwo, playerTwoWins, (100*(playerTwoWins/gameCount))))
+print("Average turns taken %.1f, max turns taken %d." %(totalTurns/gameCount,greatestTurns))
