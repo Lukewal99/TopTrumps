@@ -5,6 +5,11 @@ database = [[1414,329],[650,1738],[220,1.6],[842,1550]]
 playerOne = input("Human Player (P), Easy Robot(E) or Hard Robot(H) ")
 playerTwo = input("Human Player (P), Easy Robot(E) or Hard Robot(H) ")
 
+playerOneWins = 0
+playerTwoWins = 0
+greatestTurns = 0
+totalTurns = 0
+
 gameCount = int(input("How many games would you like to play? "))
 print()
 
@@ -53,32 +58,44 @@ for i in range(1,gameCount+1):
         print("Statistic " + str(statChoice) + " Chosen", end=" / ")
         print("P1 Stat: " + str(database[playerOneHand[0]][statChoice]) + " / P2 Stat: " + str(database[playerTwoHand[0]][statChoice]), end=" / ")
 
-        #If Player 1 Win
+        #If Player 1 Wins the Hand
         if database[playerOneHand[0]][statChoice] > database[playerTwoHand[0]][statChoice]:
-
             playerOneHand.append(playerOneHand.pop(0))
             playerOneHand.append(playerTwoHand.pop(0))
             turn = "playerOne"
             print("Player One Wins")
+            
 
-        #If Player 2 Win
+        #If Player 2 Wins the hand
         elif database[playerOneHand[0]][statChoice] < database[playerTwoHand[0]][statChoice]:
             playerTwoHand.append(playerOneHand.pop(0))
             playerTwoHand.append(playerTwoHand.pop(0))
             turn = "playerTwo"
             print("Player Two Wins")
+            
 
-        #If Draw
+        #If the Hand Draws
         else:
             playerOneHand.append(playerOneHand.pop(0))
             playerTwoHand.append(playerTwoHand.pop(0))
 
 
-    
+    #Win the Game
     if (len(playerOneHand)>0):
         print("Player One Wins The Game!", end=" / ")
+        playerOneWins += 1
     else:
         print("Player Two Wins The Game!", end=" / ")
+        playerTwoWins += 1
+
+    if turnsCount > greatestTurns:
+        greatestTurns = turnsCount
+
+    totalTurns+=turnsCount
 
     print("In " + str(turnsCount) + " Turns ")
     print()
+
+print("\nPlayer One (" + playerOne + ") won " + str(playerOneWins) + " time(s) " + str(100*(playerOneWins/gameCount)) + "%")
+print("Player Two (" + playerTwo + ") won " + str(playerTwoWins) + " time(s) " + str(100*(playerTwoWins/gameCount)) + "%")
+print("Average turns taken " + str(int(totalTurns/gameCount)) + " turn(s), max turns taken " + str(greatestTurns) + " turns.")
