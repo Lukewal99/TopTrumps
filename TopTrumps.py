@@ -64,7 +64,6 @@ def main():
     playerTwoWins = 0  # Number of wins by player 2
     greatestTurns = 0  # Largest number of turns across all games
     totalTurns = 0  # Total number of turns taken across all games
-    dealingTracker = True #Tracking variable for dealing
 
     gameCount = int(input("How many games would you like to play? "))
     print()
@@ -72,7 +71,6 @@ def main():
     # Game Loop
     for gameNumber in range(gameCount):
         
-        #! TODO Randomise which player goes first
         turn = random.randint(1,2)
         turnCount = 0
 
@@ -85,15 +83,11 @@ def main():
         # Split deck into two hands
         playerOneHand = []
         playerTwoHand = []
-        #! TODO Deal the cards - one each until no cards left
-        #TODO Improve code logic!
-        for cardPointer in deck:
-            if dealingTracker == True:
-                playerOneHand.append(cardPointer)
-                dealingTracker = False
-            elif dealingTracker == False:
-                playerTwoHand.append(cardPointer)
-                dealingTracker = True
+        #!TODO Improve code logic!
+        for cardPointer in range(0,len(deck),2):
+            playerOneHand.append(deck[cardPointer])
+            if cardPointer <= len(deck):
+                playerTwoHand.append(deck[cardPointer+1])
 
         if gameCount <= 10:
             print("Player One Hand: " + str(playerOneHand))
@@ -138,8 +132,6 @@ def main():
                     print("Player One Wins")
 
             # If Player 2 wins the hand
-            # TODO 
-            # Did you forget to fill this one in?
             elif database[playerOneHand[0]][statChoice] < database[playerTwoHand[0]][statChoice]:
                 # Append the features from top card in player 1's hand and choice to the features training data
                 features.append([database[playerOneHand[0]][0], database[playerOneHand[0]][1], database[playerOneHand[0]][2], statChoice])
@@ -220,7 +212,7 @@ def main():
     if playerOne == "H" or playerTwo == "H":
         # Export decission tree
         print()
-        print(export_text(clf, feature_names=["Feature Zero", "Feature One", "Feature Two", "Choice"], decimals=1, show_weights=True))
+        print(export_text(clf, feature_names=["Feature One", "Feature Two", "Feature Three", "Choice"], decimals=1, show_weights=True))
 
 
 if __name__ == "__main__":
